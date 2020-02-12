@@ -1,7 +1,7 @@
 ---
 title: "sm2_Analysis"
 author: "Sarah Murphy"
-date: "12/11/2019"
+date: "2/12/2020"
 output: html_document
 ---
 
@@ -26,6 +26,9 @@ library(emmeans)
 ```{r,message=FALSE}
 #import data
 s1_df <- read_csv("stage1_cleaned_data.csv")
+s1_df$test <-  factor(s1_df$test,
+                      c("SP.MSC", "SP.TSC", "HHR.TSC", "STSE"),
+                      labels = c("SP-MSC", "SP-TSC", "HHR-TSC", "STSE"))
 ```
 
 ### Stage 1a - Table 1
@@ -68,69 +71,39 @@ anova(m)
 ```
 
 ### Stage 1a - Spreading and swarming
-*Figure 1
+
+* Supplemental Table S1
 ```{r}
-#investigate which tests have >25% spreading
 m_spread <- lmer(mean_spread_percent_wNA ~ (1|powder) + test*media*plating, data=s1_df,na.action=na.exclude)
 
 lsm_summ <- emmeans(m_spread,~test|media+plating)
 
 df_lsm_summ <- as.data.frame(lsm_summ)
 
-df_lsm_summ$test<- factor(df_lsm_summ$test,c("SP.MSC","SP.TSC","HHR.TSC","STSE"),labels =c("SP-MSC","SP-TSC","HHR-TSC","STSE") )
-s1_df$test<- factor(s1_df$test,c("SP.MSC","SP.TSC","HHR.TSC","STSE"),labels =c("SP-MSC","SP-TSC","HHR-TSC","STSE") )
+df_lsm_summ
+```
 
-#Figure 1.
-#lsm_summ %>%
-#  data.frame() %>%
-  #mutate(lower.CL=pmax(0,lower.CL), #this makes it so that the ylim is 0
-  #       emmean=pmax(0,emmean))%>%
-  ggplot(df_lsm_summ,aes(x=plating,y=emmean,color=media)) +
-  facet_grid(~test)+
-  geom_hline(yintercept = 25,col="black",size=1.5)+
-  geom_point(stat="identity",position=position_dodge(.75))+
-  #ylim(0,100) +
-  geom_errorbar(stat="identity",aes(ymin=lower.CL,ymax=upper.CL),size=1,width=.75,position=position_dodge(.75),na.rm=TRUE) +
-  geom_jitter(aes(x = plating, y = mean_spread_percent_wNA, color=media), 
-              data = s1_df,  na.rm=TRUE,pch=4,position = position_jitterdodge(jitter.width=0.75,dodge.width = .75))+
-  labs(color="Media",x="Plating method",y="Percent of plate covered by spreader (%)")+
-  theme(axis.text.x = element_text(angle=60,hjust=1)) 
-
-#Figure 1b. (contains imputed values for powder D PCA)
-#alternative way (plotting actual means) demonstrates the same methods are on average above 25% spreading
-# rawmeans <-s1_df%>%
-#   #select(test,media,plating,mean_spread_percent)%>%
-#   group_by(test,media,plating)%>%
-#   summarize(mean=mean(mean_spread_percent, na.rm=TRUE),
-#             sd=sd(mean_spread_percent, na.rm=TRUE))
-# ggplot(rawmeans,aes(x=plating,y=mean,color=media))+
-#   geom_errorbar(stat="identity",aes(ymin=mean-sd, ymax=mean+sd), size=1,width=.75,position=position_dodge(.75)) +
-#   geom_point(stat="identity",position=position_dodge(.75),size=3) +
-#   geom_jitter(aes(x = plating, y = mean_spread_percent, color=media),
-#               data = s1_df,  pch=4,position = position_jitterdodge(jitter.width=0.75,dodge.width = .75))+
-#   geom_hline(yintercept = 25,col="black",size=1.5)+
-#   labs(color="Media",x="Plating method",y="Percent of plate covered by spreader (%)")+
-#   theme(axis.text.x = element_text(angle=60,hjust=1)) +
-#   facet_grid(~test)
-  
-#view spreading and swarming by powder
-# summary_spread_test <- s1_df %>%
-#   group_by(test,powder) %>%
-#   count(SPR)
-# # 
-# summary_spread_powder <- s1_df %>%
-#   group_by(powder) %>%
-#   count(SPR)
-# 
-# summary_spreads_powder <- s1_df %>%
-#   group_by(powder) %>%
-#   count(SPRs)
-
-# #plot a different way
-# ggplot(s1_df, aes(x=plating,y=mean_spread_percent_wNA,color=media))+
-#   facet_grid(~test)+
-#   geom_boxplot(position=position_dodge(.75),na.rm=TRUE)+
-#   stat_summary(fun.y=mean, geom="point", shape=23, size=4,position=position_dodge(.75),na.rm=TRUE)
+* Figure 1
+```{r}
+ggplot(df_lsm_summ, aes(x = plating, y = emmean, color = media)) +
+  facet_grid( ~ test) +
+  geom_hline(yintercept = 25,
+             col = "black",
+             size = 1.5) +
+  geom_point(stat = "identity", position = position_dodge(.75)) +
+  geom_errorbar(stat = "identity",
+                aes(ymin = lower.CL, ymax = upper.CL),
+                size = 1,
+                width = .75,
+                position = position_dodge(.75),
+                na.rm = TRUE) +
+  geom_jitter(aes(x = plating, y = mean_spread_percent_wNA, color = media),
+              data = s1_df,
+              na.rm = TRUE,
+              pch = 4,
+              position = position_jitterdodge(jitter.width = 0.75, dodge.width = .75)) +
+  labs(color = "Media", x = "Plating method", y = "Percent of plate covered by spreading and swarming colonies (%)") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
 ```
 
 ### Stage 1a - r^2 analyses
