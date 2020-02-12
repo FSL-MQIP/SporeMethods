@@ -1,6 +1,6 @@
 ---
-title: "sm2_Analysis"
-author: "Sarah Murphy"
+title: "SporeMethods_Analysis"
+author: "Sarah I. Murphy"
 date: "2/12/2020"
 output: html_document
 ---
@@ -195,11 +195,11 @@ prop_explained_withoutMSC
 
 ```{r}
 s1_df2 <- s1_df %>% 
-  filter( !(grepl("TSAwS",media) & plating=="Spread" & test=="SP.TSC"),
-          !(grepl("PCMA",media) & plating=="Spread" & test=="SP.TSC"),
-          !(grepl("BHI",media) & plating=="Spread" & test=="SP.TSC"),
-          !(grepl("SMA",media) & plating=="Pour" & test=="SP.TSC"),
-          !(grepl("PCMA",media) & plating=="Pour" & test=="SP.TSC") )
+  filter( !(grepl("TSAwS",media) & plating=="Spread" & test=="SP-TSC"),
+          !(grepl("PCMA",media) & plating=="Spread" & test=="SP-TSC"),
+          !(grepl("BHI",media) & plating=="Spread" & test=="SP-TSC"),
+          !(grepl("SMA",media) & plating=="Pour" & test=="SP-TSC"),
+          !(grepl("PCMA",media) & plating=="Pour" & test=="SP-TSC") )
 s1_df2$combo<- paste(s1_df2$media, s1_df2$plating, s1_df2$test, sep="_")
 
 s1_df2$combo_abbrv <- make.names(abbreviate(s1_df2$combo))
@@ -258,10 +258,6 @@ for( i in colnames(all_wide)) {
   }
 }}
 
-results_BHI_P %>%
-  filter(testcombo=="BHI_P")
-results
-# by test
 
 results %>%
   left_join(abbrv_combo_lookup) %>%
@@ -285,9 +281,12 @@ all_var <- s1_df2 %>%
   group_by(test,plating,media) %>%
   summarize(var=var(log_mean_count))
 
+```
+
+```{r}
 # percent variance
 
-test_combo_vec <- c(PCMA_S)
+test_combo_vec <- c(PCMA_S) #run this indivudually for each of the test_combo
 
 prop_df <- data.frame(testcombo=c(),prop_explain=c())
 for (j in test_combo_vec){ 
