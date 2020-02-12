@@ -72,15 +72,19 @@ anova(m)
 
 ### Stage 1a - Spreading and swarming
 
-* Supplemental Table S1
+
 ```{r}
 m_spread <- lmer(mean_spread_percent_wNA ~ (1|powder) + test*media*plating, data=s1_df,na.action=na.exclude)
 
 lsm_summ <- emmeans(m_spread,~test|media+plating)
 
 df_lsm_summ <- as.data.frame(lsm_summ)
+```
 
-df_lsm_summ
+* Pairwise comparisons
+```{r}
+mod.emm.pairs <- pairs(lsm_summ)
+df_mod.emm.pairs<- tidy(mod.emm.pairs)
 ```
 
 * Figure 1
