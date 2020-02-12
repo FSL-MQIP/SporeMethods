@@ -1,5 +1,5 @@
 ---
-title: "SporeMethods_Analysis"
+title: "Analysis"
 author: "Sarah I. Murphy"
 date: "2/12/2020"
 output: html_document
