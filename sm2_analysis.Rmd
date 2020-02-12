@@ -1,0 +1,894 @@
+---
+title: "sm2_Analysis"
+author: "Sarah Murphy"
+date: "12/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r,message=FALSE}
+## load packages
+library(knitr)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggpubr)
+library(lme4)
+library(car)
+library(emmeans)
+```
+
+# Stage 1a
+```{r,message=FALSE}
+#import data
+s1_df <- read_csv("stage1_cleaned_data.csv")
+```
+
+### Stage 1a - Table 1
+```{r}
+#summary for Table 1; means and sd across all powders
+summary_byTestPlatingMedia <- s1_df %>%
+  group_by(test,plating,media) %>%
+  summarize(n=n(),
+            mean=mean(log_mean_count_wNA,na.rm=TRUE),
+            sd=sd(log_mean_count_wNA,na.rm=TRUE),
+            median=median(log_mean_count_wNA,na.rm = TRUE),
+            min=min(log_mean_count_wNA,na.rm=TRUE),
+            max=max(log_mean_count_wNA,na.rm=TRUE))
+
+summary_byTestPlatingMedia_SPRno <- s1_df %>%
+  filter(SPR=="no")%>%
+  group_by(test,plating,media) %>%
+  summarize(n=n(),
+            mean=mean(log_mean_count_wNA,na.rm=TRUE),
+            sd=sd(log_mean_count_wNA,na.rm=TRUE),
+            median=median(log_mean_count_wNA,na.rm = TRUE),
+            min=min(log_mean_count_wNA,na.rm=TRUE),
+            max=max(log_mean_count_wNA,na.rm=TRUE))
+```
+
+### Stage 1a - ANOVA
+*Table 2
+```{r}
+m <- lm(log_mean_count~powder+plating*media*test+mean_spread_percent,data=s1_df)
+
+#VIFs were investigated by fitting with lm() and using the car::vif function
+vif(m) #vifs OK
+
+#Additional model diagnostics were performed & looked OK
+par(mfrow=c(2,2)) # Change the panel layout to 2 x 2
+plot(m)
+
+#run anova
+anova(m)
+```
+
+### Stage 1a - Spreading and swarming
+*Figure 1
+```{r}
+#investigate which tests have >25% spreading
+m_spread <- lmer(mean_spread_percent_wNA ~ (1|powder) + test*media*plating, data=s1_df,na.action=na.exclude)
+
+lsm_summ <- emmeans(m_spread,~test|media+plating)
+
+df_lsm_summ <- as.data.frame(lsm_summ)
+
+df_lsm_summ$test<- factor(df_lsm_summ$test,c("SP.MSC","SP.TSC","HHR.TSC","STSE"),labels =c("SP-MSC","SP-TSC","HHR-TSC","STSE") )
+s1_df$test<- factor(s1_df$test,c("SP.MSC","SP.TSC","HHR.TSC","STSE"),labels =c("SP-MSC","SP-TSC","HHR-TSC","STSE") )
+
+#Figure 1.
+#lsm_summ %>%
+#  data.frame() %>%
+  #mutate(lower.CL=pmax(0,lower.CL), #this makes it so that the ylim is 0
+  #       emmean=pmax(0,emmean))%>%
+  ggplot(df_lsm_summ,aes(x=plating,y=emmean,color=media)) +
+  facet_grid(~test)+
+  geom_hline(yintercept = 25,col="black",size=1.5)+
+  geom_point(stat="identity",position=position_dodge(.75))+
+  #ylim(0,100) +
+  geom_errorbar(stat="identity",aes(ymin=lower.CL,ymax=upper.CL),size=1,width=.75,position=position_dodge(.75),na.rm=TRUE) +
+  geom_jitter(aes(x = plating, y = mean_spread_percent_wNA, color=media), 
+              data = s1_df,  na.rm=TRUE,pch=4,position = position_jitterdodge(jitter.width=0.75,dodge.width = .75))+
+  labs(color="Media",x="Plating method",y="Percent of plate covered by spreader (%)")+
+  theme(axis.text.x = element_text(angle=60,hjust=1)) 
+
+#Figure 1b. (contains imputed values for powder D PCA)
+#alternative way (plotting actual means) demonstrates the same methods are on average above 25% spreading
+# rawmeans <-s1_df%>%
+#   #select(test,media,plating,mean_spread_percent)%>%
+#   group_by(test,media,plating)%>%
+#   summarize(mean=mean(mean_spread_percent, na.rm=TRUE),
+#             sd=sd(mean_spread_percent, na.rm=TRUE))
+# ggplot(rawmeans,aes(x=plating,y=mean,color=media))+
+#   geom_errorbar(stat="identity",aes(ymin=mean-sd, ymax=mean+sd), size=1,width=.75,position=position_dodge(.75)) +
+#   geom_point(stat="identity",position=position_dodge(.75),size=3) +
+#   geom_jitter(aes(x = plating, y = mean_spread_percent, color=media),
+#               data = s1_df,  pch=4,position = position_jitterdodge(jitter.width=0.75,dodge.width = .75))+
+#   geom_hline(yintercept = 25,col="black",size=1.5)+
+#   labs(color="Media",x="Plating method",y="Percent of plate covered by spreader (%)")+
+#   theme(axis.text.x = element_text(angle=60,hjust=1)) +
+#   facet_grid(~test)
+  
+#view spreading and swarming by powder
+# summary_spread_test <- s1_df %>%
+#   group_by(test,powder) %>%
+#   count(SPR)
+# # 
+# summary_spread_powder <- s1_df %>%
+#   group_by(powder) %>%
+#   count(SPR)
+# 
+# summary_spreads_powder <- s1_df %>%
+#   group_by(powder) %>%
+#   count(SPRs)
+
+# #plot a different way
+# ggplot(s1_df, aes(x=plating,y=mean_spread_percent_wNA,color=media))+
+#   facet_grid(~test)+
+#   geom_boxplot(position=position_dodge(.75),na.rm=TRUE)+
+#   stat_summary(fun.y=mean, geom="point", shape=23, size=4,position=position_dodge(.75),na.rm=TRUE)
+```
+
+### Stage 1a - r^2 analyses
+* Table 3
+```{r}
+s1_df2 <- s1_df %>% 
+  filter( !(grepl("TSAwS",media) & plating=="Spread" & test=="SP.TSC"),
+          !(grepl("PCMA",media) & plating=="Spread" & test=="SP.TSC"),
+          !(grepl("BHI",media) & plating=="Spread" & test=="SP.TSC"),
+          !(grepl("SMA",media) & plating=="Pour" & test=="SP.TSC"),
+          !(grepl("PCMA",media) & plating=="Pour" & test=="SP.TSC") )
+s1_df2$combo<- paste(s1_df2$media, s1_df2$plating, s1_df2$test, sep="_")
+
+s1_df2$combo_abbrv <- make.names(abbreviate(s1_df2$combo))
+
+#is this doing anything useful other than reshaping?
+all_wide <- s1_df2 %>%
+  group_by(powder,combo_abbrv) %>%
+  summarise(mean=mean(log_mean_count)) %>%
+  spread(key=combo_abbrv,value=mean) %>%
+  ungroup() %>%
+  data.frame() 
+all_wide <- all_wide[c(2:44)]
+
+SP.TSC <- unique(s1_df2$combo_abbrv[s1_df2$test=="SP.TSC"])
+HHR.TSC <- unique(s1_df2$combo_abbrv[s1_df2$test=="HHR.TSC"])
+STSE <- unique(s1_df2$combo_abbrv[s1_df2$test=="STSE"])
+SP.MSC <- unique(s1_df2$combo_abbrv[s1_df2$test=="SP.MSC"])
+
+#measure test choices
+abbrv_combo_lookup <- unique(s1_df2[,c("test","media","plating","combo_abbrv")])
+
+#BHI
+#test_combo <- c("BHI_P_H","BHI_P_SP.M","BHI_P_SP.T","BHI_P_ST")
+#test_combo <- c("BHI_SO_H","BHI_SO_SP.M","BHI_SO_SP.T","BHI_SO_ST")
+#test_combo <- c("BHI_S_H","BHI_S_SP","BHI_S_ST")
+
+#PCMA
+#test_combo <- c("PCMA_P_H","PCMA_P_SP","PCMA_P_ST")
+#test_combo <- c("PCMA_SO_H","PCMA_SO_SP.M","PCMA_SO_SP.T","PCMA_SO_ST")
+#test_combo <- c("PCMA_S_H","PCMA_S_SP","PCMA_S_ST")
+
+#SMA
+#test_combo <- c("PCA_P_H","PCA_P_SP","PCA_P_ST")
+#test_combo <- c("PCA_SO_H","PCA_SO_SP.M","PCA_SO_SP.T","PCA_SO_ST")
+#test_combo <- c("PCA_S_H","PCA_S_SP_M","PCA_S_SP_T","PCA_S_ST")
+
+#TSAwS
+test_combo <- c("TSAS_P_H","TSAS_P_SP.M","TSAS_P_SP.T","TSAS_P_ST") #check this
+#test_combo <- c("TSAS_SO_H","TSAS_SO_SP.M","TSAS_SO_SP.T","TSAS_SO_ST")
+#test_combo <- c("TSAS_S_H","TSAS_S_SP","TSAS_S_ST")
+
+results <- data.frame(combo_abbrv=c(),Rsquared=c())
+for( i in colnames(all_wide)) {
+  if( !(i %in% test_combo) ) {
+    form <- paste(i,"~",paste(test_combo,collapse="+"))
+    m <- lm(form,data=all_wide)
+    rsquared <- summary(m)$r.squared
+    results <- rbind(results,data.frame(combo_abbrv=i,Rsquared=rsquared))
+  }
+}
+# by test
+results %>%
+  left_join(abbrv_combo_lookup) %>%
+  group_by(test) %>%
+  summarize(mean.rsq=mean(Rsquared)) -> mean.rsq.byTest
+mean.rsq.byTest
+
+all_var <- s1_df2 %>%
+  group_by(test,plating,media) %>%
+  summarize(var=var(log_mean_count))
+
+# percent variance
+results %>%
+  left_join(abbrv_combo_lookup) %>%
+  left_join(all_var) %>%
+  mutate(var_explained=Rsquared*var)  %>%
+  summarize(prop_explained=sum(var_explained)/sum(var)) -> prop_explained
+prop_explained
+
+results %>%
+  left_join(abbrv_combo_lookup) %>%
+  left_join(all_var) %>%
+  filter(test != "SP_MSC") %>%
+  mutate(var_explained=Rsquared*var)  %>%
+  summarize(prop_explained_no_msc=sum(var_explained)/sum(var)) -> prop_explained_withoutMSC
+prop_explained_withoutMSC
+```
+
+```{r}
+s1_df2 <- s1_df %>% 
+  filter( !(grepl("TSAwS",media) & plating=="Spread" & test=="SP.TSC"),
+          !(grepl("PCMA",media) & plating=="Spread" & test=="SP.TSC"),
+          !(grepl("BHI",media) & plating=="Spread" & test=="SP.TSC"),
+          !(grepl("SMA",media) & plating=="Pour" & test=="SP.TSC"),
+          !(grepl("PCMA",media) & plating=="Pour" & test=="SP.TSC") )
+s1_df2$combo<- paste(s1_df2$media, s1_df2$plating, s1_df2$test, sep="_")
+
+s1_df2$combo_abbrv <- make.names(abbreviate(s1_df2$combo))
+
+#is this doing anything useful other than reshaping?
+all_wide <- s1_df2 %>%
+  group_by(powder,combo_abbrv) %>%
+  summarise(mean=mean(log_mean_count)) %>%
+  spread(key=combo_abbrv,value=mean) %>%
+  ungroup() %>%
+  data.frame() 
+all_wide <- all_wide[c(2:44)]
+
+SP.TSC <- unique(s1_df2$combo_abbrv[s1_df2$test=="SP.TSC"])
+HHR.TSC <- unique(s1_df2$combo_abbrv[s1_df2$test=="HHR.TSC"])
+STSE <- unique(s1_df2$combo_abbrv[s1_df2$test=="STSE"])
+SP.MSC <- unique(s1_df2$combo_abbrv[s1_df2$test=="SP.MSC"])
+
+#measure test choices
+abbrv_combo_lookup <- unique(s1_df2[,c("test","media","plating","combo_abbrv")])
+
+#BHI
+BHI_P <- c("BHI_P_H","BHI_P_SP.M","BHI_P_SP.T","BHI_P_ST")
+BHI_SO <- c("BHI_SO_H","BHI_SO_SP.M","BHI_SO_SP.T","BHI_SO_ST")
+BHI_S <- c("BHI_S_H","BHI_S_SP","BHI_S_ST")
+
+#PCMA
+PCMA_P <- c("PCMA_P_H","PCMA_P_SP","PCMA_P_ST")
+PCMA_SO  <- c("PCMA_SO_H","PCMA_SO_SP.M","PCMA_SO_SP.T","PCMA_SO_ST")
+PCMA_S <- c("PCMA_S_H","PCMA_S_SP","PCMA_S_ST")
+
+#SMA
+SMA_P <- c("SMA_P_H","SMA_P_SP","SMA_P_ST")
+SMA_SO <- c("SMA_SO_H","SMA_SO_SP.M","SMA_SO_SP.T","SMA_SO_ST")
+SMA_S <- c("SMA_S_H","SMA_S_SP.M","SMA_S_SP.T","SMA_S_ST")
+
+#TSAwS
+TSAS_P <- c("TSAS_P_H","TSAS_P_SP.M","TSAS_P_SP.T","TSAS_P_ST") #check this
+TSAS_SO <- c("TSAS_SO_H","TSAS_SO_SP.M","TSAS_SO_SP.T","TSAS_SO_ST")
+TSAS_S <- c("TSAS_S_H","TSAS_S_SP","TSAS_S_ST")
+
+test_combo_vec <- c(BHI_P, BHI_SO, BHI_S,
+                     PCMA_P, PCMA_SO, PCMA_S,
+                     SMA_P, SMA_SO, SMA_S,
+                     TSAS_P, TSAS_SO, TSAS_S)
+
+results <- data.frame(combo_abbrv=c(),Rsquared=c(),testcombo=c())
+
+for( j in test_combo_vec) {
+for( i in colnames(all_wide)) {
+  if( !(i %in% j) ) {
+    form <- paste(i,"~",paste(j,collapse="+"))
+    m <- lm(form,data=all_wide)
+    rsquared <- summary(m)$r.squared
+    results <- rbind(results,data.frame(combo_abbrv=i,Rsquared=rsquared,testcombo=j))
+  }
+}}
+
+results_BHI_P %>%
+  filter(testcombo=="BHI_P")
+results
+# by test
+
+results %>%
+  left_join(abbrv_combo_lookup) %>%
+  group_by(testcombo,test) %>%
+  summarize(mean.rsq=mean(Rsquared)) %>%
+  spread(key=test,value=mean.rsq) %>%
+  ungroup() %>%
+  data.frame() -> mean.rsq.byTest
+mean.rsq.byTest
+
+# results %>%
+#   left_join(abbrv_combo_lookup) %>%
+#   group_by(test) %>%
+#   summarize(mean.rsq=mean(Rsquared)) %>%
+#   spread(key=test,value=mean.rsq) %>%
+#   ungroup() %>%
+#   data.frame() -> mean.rsq.byTest
+# mean.rsq.byTest
+
+all_var <- s1_df2 %>%
+  group_by(test,plating,media) %>%
+  summarize(var=var(log_mean_count))
+
+# percent variance
+
+test_combo_vec <- c(PCMA_S)
+
+prop_df <- data.frame(testcombo=c(),prop_explain=c())
+for (j in test_combo_vec){ 
+results %>%
+  filter(testcombo==j)%>%
+  left_join(abbrv_combo_lookup) %>%
+  left_join(all_var) %>%
+  mutate(var_explained=Rsquared*var)  %>%
+  summarize(prop_explained=sum(var_explained)/sum(var)) -> prop_explained
+  prop_df <- rbind(prop_df, data.frame(testcombo=j,prop_explain=prop_explained))}
+
+results %>%
+  left_join(abbrv_combo_lookup) %>%
+  left_join(all_var) %>%
+  filter(test != "SP_MSC") %>%
+  mutate(var_explained=Rsquared*var)  %>%
+  summarize(prop_explained_no_msc=sum(var_explained)/sum(var)) -> prop_explained_withoutMSC
+```
+
+# Stage 1b
+```{r,message=FALSE}
+#import data
+s1b_df <- read_csv("stage1b_data.csv")
+```
+
+### Stage 1b Bartlett test of homogeneity of variances
+*Figure 2
+```{r}
+#SP_MSC
+d_msc <- s1b_df %>% filter(test=="SP MSC")
+# Center within powder/scheme
+d_msc_centered <- d_msc %>%
+  group_by(powder,sampling_scheme) %>%
+  mutate(powder_mean=mean(log_cfu_g)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_cfu_g - powder_mean)
+d_msc_centered_summary <- d_msc_centered %>%
+  group_by(sampling_scheme) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_msc_centered_summary %>% ggplot(aes(x=sampling_scheme,y=mean)) + 
+  labs(x="Sampling Scheme",y="Spore Count Deviance (log CFU/g)") +
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_msc_centered,
+             aes(x=sampling_scheme,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red")+
+  ylim(-1,1) -> msc
+bart_msc <- bartlett.test(log_cfu_g_centered~sampling_scheme,data=d_msc_centered)
+bart_msc
+
+#HHR
+d_hhr <- s1b_df %>% filter(test=="HHR")
+# Center within powder/scheme
+d_hhr_centered <- d_hhr %>%
+  group_by(powder,sampling_scheme) %>%
+  mutate(powder_mean=mean(log_cfu_g)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_cfu_g - powder_mean)
+d_hhr_centered_summary <- d_hhr_centered %>%
+  group_by(sampling_scheme) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_hhr_centered_summary %>% ggplot(aes(x=sampling_scheme,y=mean)) + 
+  labs(x="Sampling Scheme",y="Spore Count Deviance (log CFU/g)") +
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_hhr_centered,
+             aes(x=sampling_scheme,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red")+
+  ylim(-1,1) -> hhr
+bart_hhr <- bartlett.test(log_cfu_g_centered~sampling_scheme,data=d_hhr_centered)
+bart_hhr
+
+#STSE
+d_stse <- s1b_df %>% filter(test=="STSE")
+# Center within powder/scheme
+d_stse_centered <- d_stse %>%
+  group_by(powder,sampling_scheme) %>%
+  mutate(powder_mean=mean(log_cfu_g)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_cfu_g - powder_mean)
+d_stse_centered_summary <- d_stse_centered %>%
+  group_by(sampling_scheme) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_stse_centered_summary %>% ggplot(aes(x=sampling_scheme,y=mean)) + 
+  labs(x="Sampling Scheme",y="Spore Count Deviance (log CFU/g)") +
+  scale_color_discrete(guide=F) + #getting rid of this gives us legend
+  geom_point(data=d_stse_centered,
+             aes(x=sampling_scheme,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red")+
+  ylim(-1,1)-> stse
+bart_stse <- bartlett.test(log_cfu_g_centered~sampling_scheme,data=d_stse_centered)
+bart_stse
+
+#arrange figures
+ggarrange(msc,
+          hhr,
+          stse,
+          labels=c("SP-MSC", "HHR-TSC", "STSE"),
+          ncol = 3, nrow = 1)
+
+##Make summary plots
+ggplot(s1b_df, aes(x=powder,y=log_cfu_g))+
+  geom_boxplot()+
+  geom_jitter(data=s1b_df,
+             aes(x=powder,y=log_cfu_g,color=sampling_scheme),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  facet_grid(test~sampling_scheme)
+```
+
+```{r}
+#clear global environment
+rm(list = ls())
+```
+
+# Stage 2
+
+```{r,message=FALSE}
+#import data
+s2_df <- read_csv("stage2_data.csv")
+s2_df2 <- read_csv("stage2_data_notImputed.csv")
+
+#
+df_PCMA <- s2_df %>%
+  filter(media=="PCMA")
+df_TSAwS <- s2_df %>%
+  filter(media=="TSAwS")
+```
+
+### Stage 2 Bartlett test of homogeneity of variances
+*Figure 3
+```{r}
+###PCMA analysis
+
+#SP_MSC
+d_PCMA_msc <- df_PCMA %>% filter(test=="SP.MSC")
+# Center within powder/scheme
+d_PCMA_msc_centered <- d_PCMA_msc %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_msc_centered_summary <- d_PCMA_msc_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_PCMA_msc_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-3,3)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_PCMA_msc_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> PCMA_msc
+bart_PCMA_msc <- bartlett.test(log_cfu_g_centered~lab,data=d_PCMA_msc_centered) #we centered all log msc be respective powder
+bart_PCMA_msc
+
+#HHR_TSC
+d_PCMA_hhr <- df_PCMA %>% filter(test=="HHR.TSC")
+# Center within powder/scheme
+d_PCMA_hhr_centered <- d_PCMA_hhr %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_hhr_centered_summary <- d_PCMA_hhr_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_PCMA_hhr_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-3,3)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_PCMA_hhr_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> PCMA_hhr
+bart_PCMA_hhr <- bartlett.test(log_cfu_g_centered~lab,data=d_PCMA_hhr_centered)
+bart_PCMA_hhr
+
+#STSE
+d_PCMA_stse <- df_PCMA %>% filter(test=="STSE")
+# Center within powder/scheme
+d_PCMA_stse_centered <- d_PCMA_stse %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_stse_centered_summary <- d_PCMA_stse_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_PCMA_stse_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-3,3)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_PCMA_stse_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> PCMA_stse
+bart_PCMA_stse <- bartlett.test(log_cfu_g_centered~lab,data=d_PCMA_stse_centered)
+bart_PCMA_stse
+###TSAwS analysis
+
+#SP_MSC
+d_TSAwS_msc <- df_TSAwS %>% filter(test=="SP.MSC")
+# Center within powder/scheme
+d_TSAwS_msc_centered <- d_TSAwS_msc %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_msc_centered_summary <- d_TSAwS_msc_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_TSAwS_msc_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-3,3)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_TSAwS_msc_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> TSAwS_msc
+bart_TSAwS_msc <- bartlett.test(log_cfu_g_centered~lab,data=d_TSAwS_msc_centered)
+bart_TSAwS_msc
+
+
+#HHR_TSC
+d_TSAwS_hhr <- df_TSAwS %>% filter(test=="HHR.TSC")
+# Center within powder/scheme
+d_TSAwS_hhr_centered <- d_TSAwS_hhr %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_hhr_centered_summary <- d_TSAwS_hhr_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_TSAwS_hhr_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-3,3)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_TSAwS_hhr_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> TSAwS_hhr
+bart_TSAwS_hhr <- bartlett.test(log_cfu_g_centered~lab,data=d_TSAwS_hhr_centered)
+bart_TSAwS_hhr
+
+#STSE
+d_TSAwS_stse <- df_TSAwS %>% filter(test=="STSE")
+# Center within powder/scheme
+d_TSAwS_stse_centered <- d_TSAwS_stse %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_stse_centered_summary <- d_TSAwS_stse_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_TSAwS_stse_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-3,3)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_TSAwS_stse_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> TSAwS_stse
+bart_TSAwS_stse <- bartlett.test(log_cfu_g_centered~lab,data=d_TSAwS_stse_centered)
+bart_TSAwS_stse
+
+#arrange figures
+ggarrange(PCMA_msc, 
+          TSAwS_msc,
+          PCMA_hhr,
+          TSAwS_hhr,
+          PCMA_stse,
+          TSAwS_stse,
+          labels=c("PCMA SP-MSC", "TSAwS SP-MSC", "PCMA HHR-TSC", "TSAwS HHR-TSC", "PCMA STSE", "TSAwS STSE"),
+          ncol = 2, nrow = 3)
+```
+
+### Stage 2 Summary
+* Supplemental Figure S2 [need to pick 1; either w/ or w/out imputed values]
+* Means across labs by test for PCMA & TSAwS
+```{r}
+##Make summary plots
+ggplot(s2_df, aes(x=powder,y=log_mean_count))+
+  geom_boxplot()+
+  geom_point(data=s2_df,
+             aes(x=powder,y=log_mean_count,color=lab),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  facet_grid(test~media)
+
+#plot without imputed values
+s2_df$mean_count2 <- s2_df$mean_count
+s2_df$mean_count2[s2_df$mean_count2==0]<-10
+s2_df$log_mean_count <- log10(s2_df$mean_count2) 
+
+s2_df$lab <- factor(s2_df$lab,c("UA","UB","UC","UD"))
+
+ggplot(s2_df, aes(x=powder,y=log_mean_count))+
+  geom_boxplot()+
+  geom_point(data=s2_df,
+             aes(x=powder,y=log_mean_count,color=lab),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  ylim(0,5)+
+  facet_grid(test~media)
+
+#Get means across labs without imputed values
+summary_s2_df2b <- s2_df %>%
+  group_by(media,test,lab)%>%
+  summarize(mean=mean(log_mean_count),
+            sd=sd(log_mean_count))
+```
+
+```{r}
+#clear global environment
+rm(list = ls())
+```
+
+# Stage 3
+```{r,message=FALSE}
+#import data
+s3_df <-read_csv("stage3_data.csv")
+
+#prep data
+df_PCMA <- s3_df %>%
+  filter(media=="PCMA")
+df_TSAwS <- s3_df %>%
+  filter(media=="TSA")
+```
+
+### Stage 3 Bartlett test of homogeneity of variances
+* Figure 4
+```{r}
+###PCMA analysis
+#SP_MSC
+d_PCMA_msc <- df_PCMA %>% filter(test=="SP.MSC")
+# Center within powder/scheme
+d_PCMA_msc_centered <- d_PCMA_msc %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_msc_centered_summary <- d_PCMA_msc_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_PCMA_msc_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-2,2)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_PCMA_msc_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> PCMA_msc
+bart_PCMA_msc <- bartlett.test(log_cfu_g_centered~lab,data=d_PCMA_msc_centered)
+bart_PCMA_msc
+
+
+#HHR_TSC
+d_PCMA_hhr <- df_PCMA %>% filter(test=="HHR.TSC")
+# Center within powder/scheme
+d_PCMA_hhr_centered <- d_PCMA_hhr %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_hhr_centered_summary <- d_PCMA_hhr_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_PCMA_hhr_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-2,2)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_PCMA_hhr_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> PCMA_hhr
+bart_PCMA_hhr <- bartlett.test(log_cfu_g_centered~lab,data=d_PCMA_hhr_centered)
+bart_PCMA_hhr
+
+#STSE
+d_PCMA_stse <- df_PCMA %>% filter(test=="STSE")
+# Center within powder/scheme
+d_PCMA_stse_centered <- d_PCMA_stse %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_stse_centered_summary <- d_PCMA_stse_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_PCMA_stse_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-2,2)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_PCMA_stse_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> PCMA_stse
+bart_PCMA_stse <- bartlett.test(log_cfu_g_centered~lab,data=d_PCMA_stse_centered)
+bart_PCMA_stse 
+
+###
+###TSAwS analysis
+
+#SP_MSC
+d_TSAwS_msc <- df_TSAwS %>% filter(test=="SP.MSC")
+# Center within powder/scheme
+d_TSAwS_msc_centered <- d_TSAwS_msc %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_msc_centered_summary <- d_TSAwS_msc_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_TSAwS_msc_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-2,2)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_TSAwS_msc_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> TSAwS_msc
+bart_TSAwS_msc <- bartlett.test(log_cfu_g_centered~lab,data=d_TSAwS_msc_centered)
+bart_TSAwS_msc
+
+
+#HHR_TSC
+d_TSAwS_hhr <- df_TSAwS %>% filter(test=="HHR.TSC")
+# Center within powder/scheme
+d_TSAwS_hhr_centered <- d_TSAwS_hhr %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_hhr_centered_summary <- d_TSAwS_hhr_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_TSAwS_hhr_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-2,2)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_TSAwS_hhr_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> TSAwS_hhr
+bart_TSAwS_hhr <- bartlett.test(log_cfu_g_centered~lab,data=d_TSAwS_hhr_centered)
+bart_TSAwS_hhr 
+
+#STSE
+d_TSAwS_stse <- df_TSAwS %>% filter(test=="STSE")
+# Center within powder/scheme
+d_TSAwS_stse_centered <- d_TSAwS_stse %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_stse_centered_summary <- d_TSAwS_stse_centered %>%
+  group_by(lab) %>%
+  summarize(mean=mean(log_cfu_g_centered),sd=sd(log_cfu_g_centered))
+d_TSAwS_stse_centered_summary %>% ggplot(aes(x=lab,y=mean)) + 
+  labs(x="Lab",y="Spore Count Deviance (log CFU/g)") +
+  ylim(-2,2)+
+  scale_color_discrete(guide=F) +
+  geom_point(data=d_TSAwS_stse_centered,
+             aes(x=lab,y=log_cfu_g_centered,color=powder),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  #theme(text=element_text(family="Times New Roman", size=12)) +
+  geom_point(color="red") +
+  geom_errorbar(aes(ymin=mean - sd,
+                    ymax=mean + sd),
+                width=0.3,
+                color="red") -> TSAwS_stse
+bart_TSAwS_stse <- bartlett.test(log_cfu_g_centered~lab,data=d_TSAwS_stse_centered)
+bart_TSAwS_stse
+
+ggarrange(PCMA_msc, 
+          TSAwS_msc,
+          PCMA_hhr,
+          TSAwS_hhr,
+          PCMA_stse,
+          TSAwS_stse,
+          labels=c("PCMA SP-MSC", "TSAwS SP-MSC", "PCMA HHR-TSC", "TSAwS HHR-TSC", "PCMA STSE", "TSAwS STSE"),
+          ncol = 2, nrow = 3)
+```
+
+### Stage 3 Summary
+* Supplemental Figure S3
+* Means across labs by test for PCMA & TSAwS
+```{r}
+##Make summary plots
+ggplot(s3_df, aes(x=powder,y=log_mean_count))+
+  geom_boxplot()+
+  ylim(0,4)+
+  geom_point(data=s3_df,
+             aes(x=powder,y=log_mean_count,color=lab),
+             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+  facet_grid(test~media)
+
+#Get means across labs
+summary_s3_dfb <- s3_df %>%
+  group_by(media,test,lab)%>%
+  summarize(mean=mean(log_mean_count),
+            sd=sd(log_mean_count))
+```
+
+```{r}
+#clear global environment
+rm(list = ls())
+```
