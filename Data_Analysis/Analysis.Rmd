@@ -614,34 +614,31 @@ ggarrange(PCMA_msc,
 ```
 
 ### Stage 2 Summary
-* Supplemental Figure S2 [need to pick 1; either w/ or w/out imputed values]
+* Supplemental Figure S2 [w/out imputed values]
 * Means across labs by test for PCMA & TSAwS
 ```{r}
 ##Make summary plots
-ggplot(s2_df, aes(x=powder,y=log_mean_count))+
-  geom_boxplot()+
-  geom_point(data=s2_df,
-             aes(x=powder,y=log_mean_count,color=lab),
-             position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
-  facet_grid(test~media)
-
 #plot without imputed values
-s2_df$mean_count2 <- s2_df$mean_count
-s2_df$mean_count2[s2_df$mean_count2==0]<-10
-s2_df$log_mean_count <- log10(s2_df$mean_count2) 
+s2_df2$mean_count2 <- s2_df2$mean_count
+s2_df2$mean_count2[s2_df2$mean_count2==0]<-10
+s2_df2$log_mean_count <- log10(s2_df2$mean_count2)
+# 
+s2_df2$lab <- factor(s2_df2$lab,c("UA","UB","UC","UD"))
+s2_df2$test <-  factor(s2_df2$test,
+                      c("SP.MSC", "HHR.TSC", "STSE"),
+                      labels = c("SP-MSC", "HHR-TSC", "STSE"))
 
-s2_df$lab <- factor(s2_df$lab,c("UA","UB","UC","UD"))
-
-ggplot(s2_df, aes(x=powder,y=log_mean_count))+
+ggplot(s2_df2, aes(x=powder,y=log_mean_count))+
   geom_boxplot()+
-  geom_point(data=s2_df,
+  geom_point(data=s2_df2,
              aes(x=powder,y=log_mean_count,color=lab),
              position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
   ylim(0,5)+
+  labs(x="Powder",y="Spore Count (log CFU/g)") +
   facet_grid(test~media)
 
 #Get means across labs without imputed values
-summary_s2_df2b <- s2_df %>%
+summary_s2_df2b <- s2_df2 %>%
   group_by(media,test,lab)%>%
   summarize(mean=mean(log_mean_count),
             sd=sd(log_mean_count))
@@ -850,12 +847,17 @@ ggarrange(PCMA_msc,
 * Means across labs by test for PCMA & TSAwS
 ```{r}
 ##Make summary plots
+s3_df$test <-  factor(s3_df$test,
+                      c("SP.MSC", "HHR.TSC", "STSE"),
+                      labels = c("SP-MSC", "HHR-TSC", "STSE"))
+
 ggplot(s3_df, aes(x=powder,y=log_mean_count))+
   geom_boxplot()+
   ylim(0,4)+
   geom_point(data=s3_df,
              aes(x=powder,y=log_mean_count,color=lab),
              position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
+    labs(x="Powder",y="Spore Count (log CFU/g)") +
   facet_grid(test~media)
 
 #Get means across labs
