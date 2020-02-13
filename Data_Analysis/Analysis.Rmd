@@ -36,16 +36,8 @@ s1_df$test <-  factor(s1_df$test,
 ```{r}
 #summary for Table 1; means and sd across all powders
 summary_byTestPlatingMedia <- s1_df %>%
-  group_by(test,plating,media) %>%
-  summarize(n=n(),
-            mean=mean(log_mean_count_wNA,na.rm=TRUE),
-            sd=sd(log_mean_count_wNA,na.rm=TRUE),
-            median=median(log_mean_count_wNA,na.rm = TRUE),
-            min=min(log_mean_count_wNA,na.rm=TRUE),
-            max=max(log_mean_count_wNA,na.rm=TRUE))
-
-summary_byTestPlatingMedia_SPRno <- s1_df %>%
-  filter(SPR=="no")%>%
+  filter(mean_count_wNA!="NA")%>% #don't include powder D SMA since no data due to lab error
+  filter(SPR=="no")%>% #remove data for plates with greater than >25% spreading
   group_by(test,plating,media) %>%
   summarize(n=n(),
             mean=mean(log_mean_count_wNA,na.rm=TRUE),
