@@ -312,6 +312,36 @@ s1b_df <- read_csv("stage1b_data.csv")
 ### Stage 1b Bartlett test of homogeneity of variances
 *Figure 2
 ```{r}
+#Quick glance
+d_centered <-s1b_df %>%
+  group_by(powder,test,sampling_scheme) %>%
+  mutate(powder_mean=mean(log_cfu_g)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_cfu_g - powder_mean)
+d_centered %>%
+  group_by(test,sampling_scheme) %>%
+  summarize(v=var(log_cfu_g_centered),
+            n=n()) %>%
+  kable()
+d_centered_summary <- d_centered %>%
+  group_by(test,powder,sampling_scheme) %>%
+  summarize(v=var(log_cfu_g_centered),
+            mean=mean(log_cfu_g_centered),
+            sd=sd(log_cfu_g_centered),
+            n=n()) 
+kable(d_centered_summary)
+d_centered %>%
+  group_by(test,powder,sampling_scheme) %>%
+  summarize(v=var(log_cfu_g_centered)) %>%
+  ungroup()%>%
+  group_by(test,sampling_scheme)%>%
+  summarize(meanVar=mean(v),
+            sdVar=sd(v),
+            minVar=min(v),
+            maxVar=max(v),
+            n=n())%>%
+  kable()
+
 #SP_MSC
 d_msc <- s1b_df %>% filter(test=="SP MSC")
 # Center within powder/scheme
@@ -426,6 +456,52 @@ df_TSAwS <- s2_df %>%
 ```
 
 ### Stage 2 Bartlett test of homogeneity of variances
+* Summary of variance
+```{r}
+#Quick glance
+d_PCMA_centered <- df_PCMA %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_centered_summary <- d_PCMA_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered),
+            mean=mean(log_cfu_g_centered))
+d_PCMA_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered)) %>%
+  ungroup()%>%
+  group_by(test)%>%
+  summarize(meanVar=mean(v),
+            sdVar=sd(v),
+            minVar=min(v),
+            maxVar=max(v),
+            n=n())%>%
+  kable()
+
+d_TSAwS_centered <- df_TSAwS %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_centered_summary <- d_TSAwS_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered),
+            mean=mean(log_cfu_g_centered))
+d_TSAwS_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered)) %>%
+  ungroup()%>%
+  group_by(test)%>%
+  summarize(meanVar=mean(v),
+            sdVar=sd(v),
+            minVar=min(v),
+            maxVar=max(v),
+            n=n())%>%
+  kable()
+
+```
 *Figure 3
 ```{r}
 ###PCMA analysis
@@ -634,6 +710,17 @@ summary_s2_df2b <- s2_df2 %>%
   group_by(media,test,lab)%>%
   summarize(mean=mean(log_mean_count),
             sd=sd(log_mean_count))
+
+#Get means across tests without imputed values
+summary_s2_df3 <- s2_df2 %>%
+  group_by(media,test)%>%
+  summarize(mean=mean(log_mean_count),
+            sd=sd(log_mean_count),
+            min=min(log_mean_count),
+            max=max(log_mean_count),
+            n1=sum(log_mean_count==1),
+            n=n(),
+            per=n1/n)
 ```
 
 ```{r}
@@ -654,6 +741,52 @@ df_TSAwS <- s3_df %>%
 ```
 
 ### Stage 3 Bartlett test of homogeneity of variances
+* Summary of variance
+```{r}
+#Quick glance
+d_PCMA_centered <- df_PCMA %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_PCMA_centered_summary <- d_PCMA_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered),
+            mean=mean(log_cfu_g_centered))
+d_PCMA_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered)) %>%
+  ungroup()%>%
+  group_by(test)%>%
+  summarize(meanVar=mean(v),
+            sdVar=sd(v),
+            minVar=min(v),
+            maxVar=max(v),
+            n=n())%>%
+  kable()
+
+d_TSAwS_centered <- df_TSAwS %>%
+  group_by(powder) %>%
+  mutate(powder_mean=mean(log_mean_count)) %>%
+  ungroup() %>%
+  mutate(log_cfu_g_centered=log_mean_count - powder_mean)
+d_TSAwS_centered_summary <- d_TSAwS_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered),
+            mean=mean(log_cfu_g_centered))
+d_TSAwS_centered %>%
+  group_by(test,powder) %>%
+  summarize(v=var(log_cfu_g_centered)) %>%
+  ungroup()%>%
+  group_by(test)%>%
+  summarize(meanVar=mean(v),
+            sdVar=sd(v),
+            minVar=min(v),
+            maxVar=max(v),
+            n=n())%>%
+  kable()
+```
+
 * Figure 4
 ```{r}
 ###PCMA analysis
@@ -857,6 +990,17 @@ summary_s3_dfb <- s3_df %>%
   group_by(media,test,lab)%>%
   summarize(mean=mean(log_mean_count),
             sd=sd(log_mean_count))
+
+#Get means across tests 
+summary_s3_dfc <- s3_df %>%
+  group_by(media,test)%>%
+  summarize(mean=mean(log_mean_count),
+            sd=sd(log_mean_count),
+            min=min(log_mean_count),
+            max=max(log_mean_count),
+            n1=sum(log_mean_count==1),
+            n=n(),
+            per=n1/n)
 ```
 
 ```{r}
