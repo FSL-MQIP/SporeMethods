@@ -435,7 +435,7 @@ ggplot(s1b_df, aes(x=powder,y=log_cfu_g))+
              position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
   facet_grid(test~sampling_scheme)
 
-#Get means across powders
+#Get means for each powder across sampling strategies
 summary_s1b_df <- s1b_df %>%
   group_by(test,sampling_scheme,powder)%>%
   summarize(mean=mean(log_cfu_g),
@@ -443,6 +443,17 @@ summary_s1b_df <- s1b_df %>%
             cv=sd/mean*100,
             n=n())
 # write.csv(summary_s1b_df,"stage1b_summary_bypowder.csv")
+
+#Get means for across powder for each sampling strategies
+summary_s1b_df2 <- s1b_df %>%
+  group_by(test,sampling_scheme, powder)%>%
+  summarize(mean=mean(log_cfu_g))%>%
+  ungroup()%>%
+  group_by(test,sampling_scheme)%>%
+  summarize(OverallMean=mean(mean),
+            Overallsd=sd(mean),
+            n=n())
+# write.csv(summary_s1b_df2,"stage1b_summary_bystrategy.csv")
 ```
 
 ```{r}
