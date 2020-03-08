@@ -434,6 +434,15 @@ ggplot(s1b_df, aes(x=powder,y=log_cfu_g))+
              aes(x=powder,y=log_cfu_g,color=sampling_scheme),
              position=position_jitterdodge(jitter.width = 0.05,dodge.width=0.7)) +
   facet_grid(test~sampling_scheme)
+
+#Get means across powders
+summary_s1b_df <- s1b_df %>%
+  group_by(test,sampling_scheme,powder)%>%
+  summarize(mean=mean(log_cfu_g),
+            sd=sd(log_cfu_g),
+            cv=sd/mean*100,
+            n=n())
+# write.csv(summary_s1b_df,"stage1b_summary_bypowder.csv")
 ```
 
 ```{r}
@@ -712,15 +721,24 @@ summary_s2_df2b <- s2_df2 %>%
             sd=sd(log_mean_count))
 
 #Get means across tests without imputed values
-summary_s2_df3 <- s2_df2 %>%
-  group_by(media,test)%>%
+# summary_s2_df3 <- s2_df2 %>%
+#   group_by(media,test)%>%
+#   summarize(mean=mean(log_mean_count),
+#             sd=sd(log_mean_count),
+#             min=min(log_mean_count),
+#             max=max(log_mean_count),
+#             n1=sum(log_mean_count==1),
+#             n=n(),
+#             per=n1/n)
+
+#Get means across powders
+summary_s2_df2c <- s2_df2 %>%
+  group_by(media,test,powder)%>%
   summarize(mean=mean(log_mean_count),
             sd=sd(log_mean_count),
-            min=min(log_mean_count),
-            max=max(log_mean_count),
-            n1=sum(log_mean_count==1),
-            n=n(),
-            per=n1/n)
+            cv=sd/mean*100,
+            n=n())
+# write.csv(summary_s2_df2c,"stage2_summary_bypowder.csv")
 ```
 
 ```{r}
@@ -989,18 +1007,18 @@ ggplot(s3_df, aes(x=powder,y=log_mean_count))+
 summary_s3_dfb <- s3_df %>%
   group_by(media,test,lab)%>%
   summarize(mean=mean(log_mean_count),
-            sd=sd(log_mean_count))
+            sd=sd(log_mean_count),
+            cv=sd/mean*100,
+            n=n())
 
-#Get means across tests 
+#Get means across powders
 summary_s3_dfc <- s3_df %>%
-  group_by(media,test)%>%
+  group_by(media,test,powder)%>%
   summarize(mean=mean(log_mean_count),
             sd=sd(log_mean_count),
-            min=min(log_mean_count),
-            max=max(log_mean_count),
-            n1=sum(log_mean_count==1),
-            n=n(),
-            per=n1/n)
+            cv=sd/mean*100,
+            n=n())
+# write.csv(summary_s3_dfc,"stage3_summary_bypowder.csv")
 ```
 
 ```{r}
