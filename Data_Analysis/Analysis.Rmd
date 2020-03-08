@@ -528,7 +528,7 @@ d_TSAwS_centered %>%
 
 #SP_MSC
 d_PCMA_msc <- df_PCMA %>% filter(test=="SP.MSC")
-# Center within powder/scheme
+# Center within powder
 d_PCMA_msc_centered <- d_PCMA_msc %>%
   group_by(powder) %>%
   mutate(powder_mean=mean(log_mean_count)) %>%
@@ -729,8 +729,20 @@ ggplot(s2_df2, aes(x=powder,y=log_mean_count))+
 summary_s2_df2b <- s2_df2 %>%
   group_by(media,test,lab)%>%
   summarize(mean=mean(log_mean_count),
-            sd=sd(log_mean_count))
+            sd=sd(log_mean_count),
+            cv=sd/mean*100,
+            n=n())
 
+summary_s2_df2b2 <- s2_df2 %>%
+  group_by(media,test,lab)%>%
+  summarize(mean=mean(log_mean_count),
+            sd=sd(log_mean_count),
+            cv=sd/mean*100,
+            n=n())%>%
+  ungroup()%>%
+  group_by(media,test)%>%
+  summarize(MeanCV=mean(cv),
+            SDCV=sd(cv))
 #Get means across tests without imputed values
 # summary_s2_df3 <- s2_df2 %>%
 #   group_by(media,test)%>%
@@ -906,7 +918,7 @@ bart_PCMA_stse
 
 #SP_MSC
 d_TSAwS_msc <- df_TSAwS %>% filter(test=="SP.MSC")
-# Center within powder/scheme
+# Center within powder
 d_TSAwS_msc_centered <- d_TSAwS_msc %>%
   group_by(powder) %>%
   mutate(powder_mean=mean(log_mean_count)) %>%
@@ -934,7 +946,7 @@ bart_TSAwS_msc
 
 #HHR_TSC
 d_TSAwS_hhr <- df_TSAwS %>% filter(test=="HHR.TSC")
-# Center within powder/scheme
+# Center within powder
 d_TSAwS_hhr_centered <- d_TSAwS_hhr %>%
   group_by(powder) %>%
   mutate(powder_mean=mean(log_mean_count)) %>%
@@ -961,7 +973,7 @@ bart_TSAwS_hhr
 
 #STSE
 d_TSAwS_stse <- df_TSAwS %>% filter(test=="STSE")
-# Center within powder/scheme
+# Center within powder
 d_TSAwS_stse_centered <- d_TSAwS_stse %>%
   group_by(powder) %>%
   mutate(powder_mean=mean(log_mean_count)) %>%
@@ -1021,6 +1033,17 @@ summary_s3_dfb <- s3_df %>%
             sd=sd(log_mean_count),
             cv=sd/mean*100,
             n=n())
+
+summary_s3_dfb2 <- s3_df %>%
+  group_by(media,test,lab)%>%
+  summarize(mean=mean(log_mean_count),
+            sd=sd(log_mean_count),
+            cv=sd/mean*100,
+            n=n()) %>%
+  ungroup()%>%
+  group_by(media,test)%>%
+  summarize(MeanCV=mean(cv),
+            SDCV=sd(cv))
 
 #Get means across powders
 summary_s3_dfc <- s3_df %>%
