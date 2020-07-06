@@ -1,7 +1,7 @@
 ---
 title: "Analysis"
 author: "Sarah I. Murphy"
-date: "2/12/2020"
+date: "7/6/2020"
 output: html_document
 ---
 
@@ -80,27 +80,27 @@ mod.emm.pairs <- pairs(lsm_summ)
 df_mod.emm.pairs<- tidy(mod.emm.pairs)
 ```
 
-* Figure 1
+* Figure 2
 ```{r}
 ggplot(df_lsm_summ, aes(x = plating, y = emmean, color = media)) +
   facet_grid( ~ test) +
   geom_hline(yintercept = 25,
              col = "black",
              size = 1.5) +
-  geom_point(stat = "identity", position = position_dodge(.75)) +
+  geom_point(stat = "identity", position = position_dodge(1)) +
   geom_errorbar(stat = "identity",
                 aes(ymin = lower.CL, ymax = upper.CL),
                 size = 1,
-                width = .75,
-                position = position_dodge(.75),
+                width = .5,
+                position = position_dodge(1),
                 na.rm = TRUE) +
   geom_jitter(aes(x = plating, y = mean_spread_percent_wNA, color = media),
               data = s1_df,
               na.rm = TRUE,
               pch = 4,
-              position = position_jitterdodge(jitter.width = 0.75, dodge.width = .75)) +
+              position = position_jitterdodge(jitter.width = 0.15, dodge.width = 1)) +
   labs(color = "Media", x = "Plating method", y = "Percent of plate covered by spreading and swarming colonies (%)") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+  theme(axis.text.x = element_text(size=12,angle = 60, hjust = 1),axis.text.y = element_text(size=12),axis.title.x = element_text(size=14),axis.title.y = element_text(size=14),strip.text.x = element_text(size=14),legend.text=element_text(size=12),legend.title=element_text(size=14)) 
 ```
 
 ### Stage 1a - r^2 analyses
