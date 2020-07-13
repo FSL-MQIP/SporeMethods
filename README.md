@@ -1,3 +1,3 @@
 # SporeMethods
 
-This is a repository for the spore methods project files.
+Supplemental files for "Identifying a standard set of spore testing methods to capture variation across commercial milk powders", submitted to the Journal of Dairy Science. 
