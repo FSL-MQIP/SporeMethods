@@ -442,7 +442,6 @@ summary_s1b_df <- s1b_df %>%
             sd=sd(log_cfu_g),
             cv=sd/mean*100,
             n=n())
-# write.csv(summary_s1b_df,"stage1b_summary_bypowder.csv")
 
 #Get means for across powder for each sampling strategies
 summary_s1b_df2 <- s1b_df %>%
@@ -453,7 +452,6 @@ summary_s1b_df2 <- s1b_df %>%
   summarize(OverallMean=mean(mean),
             Overallsd=sd(mean),
             n=n())
-# write.csv(summary_s1b_df2,"stage1b_summary_bystrategy.csv")
 ```
 
 ```{r}
