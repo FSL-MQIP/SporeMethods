@@ -1,7 +1,7 @@
 ---
 title: "Analysis"
 author: "Sarah I. Murphy"
-date: "7/6/2020"
+date: "7/17/2020"
 output: html_document
 ---
 
@@ -11,22 +11,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r,message=FALSE}
 ## load packages
-library(knitr)
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+library(tidyverse)
 library(ggpubr)
 library(lme4)
 library(car)
 library(emmeans)
-library(broom)
 ```
 
 # Stage 1a
 ```{r,message=FALSE}
 #import data
-s1_df <- read_csv("stage1_cleaned_data.csv")
+s1_df <- read_csv("stage1_data.csv") #note that all "mean_count" or "mean_spread_percent" represents a mean of the 2 plates (technical reps)
 s1_df$test <-  factor(s1_df$test,
                       c("SP.MSC", "SP.TSC", "HHR.TSC", "STSE"),
                       labels = c("SP-MSC", "SP-TSC", "HHR-TSC", "STSE"))
@@ -64,7 +59,6 @@ anova(m)
 ```
 
 ### Stage 1a - Spreading and swarming
-
 
 ```{r}
 m_spread <- lmer(mean_spread_percent_wNA ~ (1|powder) + test*media*plating, data=s1_df,na.action=na.exclude)
@@ -306,7 +300,7 @@ results %>%
 # Stage 1b
 ```{r,message=FALSE}
 #import data
-s1b_df <- read_csv("stage1b_data.csv")
+s1b_df <- read_csv("stage1b_data.csv") #cfu_g was actual count, cfu_g2 is count with zeros replaced with 25% of detection limit; log_cfu_g is log10(cfu_g2)
 ```
 
 ### Stage 1b Bartlett test of homogeneity of variances
@@ -700,7 +694,7 @@ ggarrange(PCMA_msc,
 ```
 
 ### Stage 2 Summary
-* Supplemental Figure S2 [w/out imputed values]
+* Data visualization [w/out imputed values]
 * Means across labs by test for PCMA & TSAwS
 ```{r}
 ##Make summary plots
@@ -759,7 +753,6 @@ summary_s2_df2c <- s2_df2 %>%
             sd=sd(log_mean_count),
             cv=sd/mean*100,
             n=n())
-# write.csv(summary_s2_df2c,"stage2_summary_bypowder.csv")
 ```
 
 ```{r}
@@ -1007,7 +1000,7 @@ ggarrange(PCMA_msc,
 ```
 
 ### Stage 3 Summary
-* Supplemental Figure S3
+* Data visualization
 * Means across labs by test for PCMA & TSAwS
 ```{r}
 ##Make summary plots
@@ -1050,7 +1043,6 @@ summary_s3_dfc <- s3_df %>%
             sd=sd(log_mean_count),
             cv=sd/mean*100,
             n=n())
-# write.csv(summary_s3_dfc,"stage3_summary_bypowder.csv")
 ```
 
 ```{r}

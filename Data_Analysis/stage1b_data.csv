@@ -1,271 +1,271 @@
-"","powder","sampling_rep","sampling_scheme","test","cfu_g","powder_rep","cfu_g2","log_cfu_g"
-"1","A","R","11 g discrete","HHR",20,"A R",20,1.30102999566398
-"2","A","R","11 g discrete","SP MSC",60,"A R",60,1.77815125038364
-"3","A","R","11 g discrete","STSE",0,"A R",10,1
-"4","A","S","11 g discrete","HHR",20,"A S",20,1.30102999566398
-"5","A","S","11 g discrete","SP MSC",60,"A S",60,1.77815125038364
-"6","A","S","11 g discrete","STSE",0,"A S",10,1
-"7","A","T","11 g discrete","HHR",60,"A T",60,1.77815125038364
-"8","A","T","11 g discrete","SP MSC",140,"A T",140,2.14612803567824
-"9","A","T","11 g discrete","STSE",0,"A T",10,1
-"10","A","U","33 g discrete","HHR",20,"A U",20,1.30102999566398
-"11","A","U","33 g discrete","SP MSC",60,"A U",60,1.77815125038364
-"12","A","U","33 g discrete","STSE",0,"A U",10,1
-"13","A","V","33 g discrete","HHR",60,"A V",60,1.77815125038364
-"14","A","V","33 g discrete","SP MSC",60,"A V",60,1.77815125038364
-"15","A","V","33 g discrete","STSE",0,"A V",10,1
-"16","A","W","33 g discrete","HHR",0,"A W",10,1
-"17","A","W","33 g discrete","SP MSC",180,"A W",180,2.25527250510331
-"18","A","W","33 g discrete","STSE",0,"A W",10,1
-"19","A","X","33 g composite","HHR",0,"A X",10,1
-"20","A","X","33 g composite","SP MSC",60,"A X",60,1.77815125038364
-"21","A","X","33 g composite","STSE",0,"A X",10,1
-"22","A","Y","33 g composite","HHR",40,"A Y",40,1.60205999132796
-"23","A","Y","33 g composite","SP MSC",160,"A Y",160,2.20411998265592
-"24","A","Y","33 g composite","STSE",0,"A Y",10,1
-"25","A","Z","33 g composite","HHR",20,"A Z",20,1.30102999566398
-"26","A","Z","33 g composite","SP MSC",160,"A Z",160,2.20411998265592
-"27","A","Z","33 g composite","STSE",0,"A Z",10,1
-"28","B","R","11 g discrete","HHR",80000,"B R",80000,4.90308998699194
-"29","B","R","11 g discrete","SP MSC",200,"B R",200,2.30102999566398
-"30","B","R","11 g discrete","STSE",0,"B R",10,1
-"31","B","S","11 g discrete","HHR",66000,"B S",66000,4.81954393554187
-"32","B","S","11 g discrete","SP MSC",40,"B S",40,1.60205999132796
-"33","B","S","11 g discrete","STSE",0,"B S",10,1
-"34","B","T","11 g discrete","HHR",84000,"B T",84000,4.92427928606188
-"35","B","T","11 g discrete","SP MSC",20,"B T",20,1.30102999566398
-"36","B","T","11 g discrete","STSE",0,"B T",10,1
-"37","B","U","33 g discrete","HHR",114000,"B U",114000,5.05690485133647
-"38","B","U","33 g discrete","SP MSC",60,"B U",60,1.77815125038364
-"39","B","U","33 g discrete","STSE",180,"B U",180,2.25527250510331
-"40","B","V","33 g discrete","HHR",106000,"B V",106000,5.02530586526477
-"41","B","V","33 g discrete","SP MSC",160,"B V",160,2.20411998265592
-"42","B","V","33 g discrete","STSE",20,"B V",20,1.30102999566398
-"43","B","W","33 g discrete","HHR",98000,"B W",98000,4.9912260756925
-"44","B","W","33 g discrete","SP MSC",80,"B W",80,1.90308998699194
-"45","B","W","33 g discrete","STSE",0,"B W",10,1
-"46","B","X","33 g composite","HHR",74000,"B X",74000,4.86923171973098
-"47","B","X","33 g composite","SP MSC",80,"B X",80,1.90308998699194
-"48","B","X","33 g composite","STSE",80,"B X",80,1.90308998699194
-"49","B","Y","33 g composite","HHR",92000,"B Y",92000,4.96378782734556
-"50","B","Y","33 g composite","SP MSC",60,"B Y",60,1.77815125038364
-"51","B","Y","33 g composite","STSE",60,"B Y",60,1.77815125038364
-"52","B","Z","33 g composite","HHR",86000,"B Z",86000,4.93449845124357
-"53","B","Z","33 g composite","SP MSC",140,"B Z",140,2.14612803567824
-"54","B","Z","33 g composite","STSE",0,"B Z",10,1
-"55","C","R","11 g discrete","HHR",20,"C R",20,1.30102999566398
-"56","C","R","11 g discrete","SP MSC",100,"C R",100,2
-"57","C","R","11 g discrete","STSE",60,"C R",60,1.77815125038364
-"58","C","S","11 g discrete","HHR",20,"C S",20,1.30102999566398
-"59","C","S","11 g discrete","SP MSC",80,"C S",80,1.90308998699194
-"60","C","S","11 g discrete","STSE",0,"C S",10,1
-"61","C","T","11 g discrete","HHR",160,"C T",160,2.20411998265592
-"62","C","T","11 g discrete","SP MSC",60,"C T",60,1.77815125038364
-"63","C","T","11 g discrete","STSE",60,"C T",60,1.77815125038364
-"64","C","U","33 g discrete","HHR",60,"C U",60,1.77815125038364
-"65","C","U","33 g discrete","SP MSC",180,"C U",180,2.25527250510331
-"66","C","U","33 g discrete","STSE",60,"C U",60,1.77815125038364
-"67","C","V","33 g discrete","HHR",20,"C V",20,1.30102999566398
-"68","C","V","33 g discrete","SP MSC",60,"C V",60,1.77815125038364
-"69","C","V","33 g discrete","STSE",40,"C V",40,1.60205999132796
-"70","C","W","33 g discrete","HHR",140,"C W",140,2.14612803567824
-"71","C","W","33 g discrete","SP MSC",60,"C W",60,1.77815125038364
-"72","C","W","33 g discrete","STSE",40,"C W",40,1.60205999132796
-"73","C","X","33 g composite","HHR",80,"C X",80,1.90308998699194
-"74","C","X","33 g composite","SP MSC",20,"C X",20,1.30102999566398
-"75","C","X","33 g composite","STSE",140,"C X",140,2.14612803567824
-"76","C","Y","33 g composite","HHR",120,"C Y",120,2.07918124604762
-"77","C","Y","33 g composite","SP MSC",120,"C Y",120,2.07918124604762
-"78","C","Y","33 g composite","STSE",80,"C Y",80,1.90308998699194
-"79","C","Z","33 g composite","HHR",60,"C Z",60,1.77815125038364
-"80","C","Z","33 g composite","SP MSC",80,"C Z",80,1.90308998699194
-"81","C","Z","33 g composite","STSE",100,"C Z",100,2
-"82","D","R","11 g discrete","HHR",1480,"D R",1480,3.17026171539496
-"83","D","R","11 g discrete","SP MSC",80,"D R",80,1.90308998699194
-"84","D","R","11 g discrete","STSE",220,"D R",220,2.34242268082221
-"85","D","S","11 g discrete","HHR",1080,"D S",1080,3.03342375548695
-"86","D","S","11 g discrete","SP MSC",100,"D S",100,2
-"87","D","S","11 g discrete","STSE",140,"D S",140,2.14612803567824
-"88","D","T","11 g discrete","HHR",1360,"D T",1360,3.13353890837022
-"89","D","T","11 g discrete","SP MSC",120,"D T",120,2.07918124604762
-"90","D","T","11 g discrete","STSE",140,"D T",140,2.14612803567824
-"91","D","U","33 g discrete","HHR",780,"D U",780,2.89209460269048
-"92","D","U","33 g discrete","SP MSC",80,"D U",80,1.90308998699194
-"93","D","U","33 g discrete","STSE",320,"D U",320,2.50514997831991
-"94","D","V","33 g discrete","HHR",580,"D V",580,2.76342799356294
-"95","D","V","33 g discrete","SP MSC",100,"D V",100,2
-"96","D","V","33 g discrete","STSE",300,"D V",300,2.47712125471966
-"97","D","W","33 g discrete","HHR",1040,"D W",1040,3.01703333929878
-"98","D","W","33 g discrete","SP MSC",140,"D W",140,2.14612803567824
-"99","D","W","33 g discrete","STSE",340,"D W",340,2.53147891704225
-"100","D","X","33 g composite","HHR",640,"D X",640,2.80617997398389
-"101","D","X","33 g composite","SP MSC",40,"D X",40,1.60205999132796
-"102","D","X","33 g composite","STSE",420,"D X",420,2.6232492903979
-"103","D","Y","33 g composite","HHR",520,"D Y",520,2.7160033436348
-"104","D","Y","33 g composite","SP MSC",100,"D Y",100,2
-"105","D","Y","33 g composite","STSE",280,"D Y",280,2.44715803134222
-"106","D","Z","33 g composite","HHR",1000,"D Z",1000,3
-"107","D","Z","33 g composite","SP MSC",80,"D Z",80,1.90308998699194
-"108","D","Z","33 g composite","STSE",280,"D Z",280,2.44715803134222
-"109","E","R","11 g discrete","HHR",540,"E R",540,2.73239375982297
-"110","E","R","11 g discrete","SP MSC",220,"E R",220,2.34242268082221
-"111","E","R","11 g discrete","STSE",0,"E R",10,1
-"112","E","S","11 g discrete","HHR",640,"E S",640,2.80617997398389
-"113","E","S","11 g discrete","SP MSC",280,"E S",280,2.44715803134222
-"114","E","S","11 g discrete","STSE",0,"E S",10,1
-"115","E","T","11 g discrete","HHR",460,"E T",460,2.66275783168157
-"116","E","T","11 g discrete","SP MSC",420,"E T",420,2.6232492903979
-"117","E","T","11 g discrete","STSE",0,"E T",10,1
-"118","E","U","33 g discrete","HHR",540,"E U",540,2.73239375982297
-"119","E","U","33 g discrete","SP MSC",440,"E U",440,2.64345267648619
-"120","E","U","33 g discrete","STSE",40,"E U",40,1.60205999132796
-"121","E","V","33 g discrete","HHR",700,"E V",700,2.84509804001426
-"122","E","V","33 g discrete","SP MSC",300,"E V",300,2.47712125471966
-"123","E","V","33 g discrete","STSE",20,"E V",20,1.30102999566398
-"124","E","W","33 g discrete","HHR",420,"E W",420,2.6232492903979
-"125","E","W","33 g discrete","SP MSC",320,"E W",320,2.50514997831991
-"126","E","W","33 g discrete","STSE",0,"E W",10,1
-"127","E","X","33 g composite","HHR",600,"E X",600,2.77815125038364
-"128","E","X","33 g composite","SP MSC",300,"E X",300,2.47712125471966
-"129","E","X","33 g composite","STSE",0,"E X",10,1
-"130","E","Y","33 g composite","HHR",560,"E Y",560,2.7481880270062
-"131","E","Y","33 g composite","SP MSC",300,"E Y",300,2.47712125471966
-"132","E","Y","33 g composite","STSE",0,"E Y",10,1
-"133","E","Z","33 g composite","HHR",520,"E Z",520,2.7160033436348
-"134","E","Z","33 g composite","SP MSC",340,"E Z",340,2.53147891704225
-"135","E","Z","33 g composite","STSE",0,"E Z",10,1
-"136","F","R","11 g discrete","HHR",5040,"F R",5040,3.70243053644553
-"137","F","R","11 g discrete","SP MSC",0,"F R",10,1
-"138","F","R","11 g discrete","STSE",2260,"F R",2260,3.3541084391474
-"139","F","S","11 g discrete","HHR",5000,"F S",5000,3.69897000433602
-"140","F","S","11 g discrete","SP MSC",40,"F S",40,1.60205999132796
-"141","F","S","11 g discrete","STSE",2300,"F S",2300,3.36172783601759
-"142","F","T","11 g discrete","HHR",8200,"F T",8200,3.91381385238372
-"143","F","T","11 g discrete","SP MSC",60,"F T",60,1.77815125038364
-"144","F","T","11 g discrete","STSE",3060,"F T",3060,3.48572142648158
-"145","F","U","33 g discrete","HHR",3940,"F U",3940,3.59549622182557
-"146","F","U","33 g discrete","SP MSC",40,"F U",40,1.60205999132796
-"147","F","U","33 g discrete","STSE",2080,"F U",2080,3.31806333496276
-"148","F","V","33 g discrete","HHR",3960,"F V",3960,3.59769518592551
-"149","F","V","33 g discrete","SP MSC",20,"F V",20,1.30102999566398
-"150","F","V","33 g discrete","STSE",2460,"F V",2460,3.39093510710338
-"151","F","W","33 g discrete","HHR",5280,"F W",5280,3.72263392253381
-"152","F","W","33 g discrete","SP MSC",20,"F W",20,1.30102999566398
-"153","F","W","33 g discrete","STSE",2600,"F W",2600,3.41497334797082
-"154","F","X","33 g composite","HHR",4360,"F X",4360,3.63948648926859
-"155","F","X","33 g composite","SP MSC",20,"F X",20,1.30102999566398
-"156","F","X","33 g composite","STSE",2860,"F X",2860,3.45636603312904
-"157","F","Y","33 g composite","HHR",5080,"F Y",5080,3.70586371228392
-"158","F","Y","33 g composite","SP MSC",80,"F Y",80,1.90308998699194
-"159","F","Y","33 g composite","STSE",2100,"F Y",2100,3.32221929473392
-"160","F","Z","33 g composite","HHR",6720,"F Z",6720,3.82736927305383
-"161","F","Z","33 g composite","SP MSC",20,"F Z",20,1.30102999566398
-"162","F","Z","33 g composite","STSE",2320,"F Z",2320,3.3654879848909
-"163","G","R","11 g discrete","HHR",360,"G R",360,2.55630250076729
-"164","G","R","11 g discrete","SP MSC",40,"G R",40,1.60205999132796
-"165","G","R","11 g discrete","STSE",200,"G R",200,2.30102999566398
-"166","G","S","11 g discrete","HHR",260,"G S",260,2.41497334797082
-"167","G","S","11 g discrete","SP MSC",100,"G S",100,2
-"168","G","S","11 g discrete","STSE",100,"G S",100,2
-"169","G","T","11 g discrete","HHR",620,"G T",620,2.79239168949825
-"170","G","T","11 g discrete","SP MSC",80,"G T",80,1.90308998699194
-"171","G","T","11 g discrete","STSE",100,"G T",100,2
-"172","G","U","33 g discrete","HHR",1720,"G U",1720,3.23552844690755
-"173","G","U","33 g discrete","SP MSC",120,"G U",120,2.07918124604762
-"174","G","U","33 g discrete","STSE",220,"G U",220,2.34242268082221
-"175","G","V","33 g discrete","HHR",860,"G V",860,2.93449845124357
-"176","G","V","33 g discrete","SP MSC",40,"G V",40,1.60205999132796
-"177","G","V","33 g discrete","STSE",160,"G V",160,2.20411998265592
-"178","G","W","33 g discrete","HHR",1340,"G W",1340,3.12710479836481
-"179","G","W","33 g discrete","SP MSC",100,"G W",100,2
-"180","G","W","33 g discrete","STSE",140,"G W",140,2.14612803567824
-"181","G","X","33 g composite","HHR",880,"G X",880,2.94448267215017
-"182","G","X","33 g composite","SP MSC",20,"G X",20,1.30102999566398
-"183","G","X","33 g composite","STSE",480,"G X",480,2.68124123737559
-"184","G","Y","33 g composite","HHR",440,"G Y",440,2.64345267648619
-"185","G","Y","33 g composite","SP MSC",80,"G Y",80,1.90308998699194
-"186","G","Y","33 g composite","STSE",300,"G Y",300,2.47712125471966
-"187","G","Z","33 g composite","HHR",740,"G Z",740,2.86923171973098
-"188","G","Z","33 g composite","SP MSC",80,"G Z",80,1.90308998699194
-"189","G","Z","33 g composite","STSE",200,"G Z",200,2.30102999566398
-"190","H","R","11 g discrete","HHR",40,"H R",40,1.60205999132796
-"191","H","R","11 g discrete","SP MSC",180,"H R",180,2.25527250510331
-"192","H","R","11 g discrete","STSE",60,"H R",60,1.77815125038364
-"193","H","S","11 g discrete","HHR",0,"H S",10,1
-"194","H","S","11 g discrete","SP MSC",80,"H S",80,1.90308998699194
-"195","H","S","11 g discrete","STSE",60,"H S",60,1.77815125038364
-"196","H","T","11 g discrete","HHR",180,"H T",180,2.25527250510331
-"197","H","T","11 g discrete","SP MSC",100,"H T",100,2
-"198","H","T","11 g discrete","STSE",40,"H T",40,1.60205999132796
-"199","H","U","33 g discrete","HHR",80,"H U",80,1.90308998699194
-"200","H","U","33 g discrete","SP MSC",80,"H U",80,1.90308998699194
-"201","H","U","33 g discrete","STSE",20,"H U",20,1.30102999566398
-"202","H","V","33 g discrete","HHR",20,"H V",20,1.30102999566398
-"203","H","V","33 g discrete","SP MSC",80,"H V",80,1.90308998699194
-"204","H","V","33 g discrete","STSE",20,"H V",20,1.30102999566398
-"205","H","W","33 g discrete","HHR",40,"H W",40,1.60205999132796
-"206","H","W","33 g discrete","SP MSC",60,"H W",60,1.77815125038364
-"207","H","W","33 g discrete","STSE",20,"H W",20,1.30102999566398
-"208","H","X","33 g composite","HHR",100,"H X",100,2
-"209","H","X","33 g composite","SP MSC",40,"H X",40,1.60205999132796
-"210","H","X","33 g composite","STSE",180,"H X",180,2.25527250510331
-"211","H","Y","33 g composite","HHR",60,"H Y",60,1.77815125038364
-"212","H","Y","33 g composite","SP MSC",80,"H Y",80,1.90308998699194
-"213","H","Y","33 g composite","STSE",40,"H Y",40,1.60205999132796
-"214","H","Z","33 g composite","HHR",80,"H Z",80,1.90308998699194
-"215","H","Z","33 g composite","SP MSC",20,"H Z",20,1.30102999566398
-"216","H","Z","33 g composite","STSE",20,"H Z",20,1.30102999566398
-"217","I","R","11 g discrete","HHR",2260,"I R",2260,3.3541084391474
-"218","I","R","11 g discrete","SP MSC",80,"I R",80,1.90308998699194
-"219","I","R","11 g discrete","STSE",180,"I R",180,2.25527250510331
-"220","I","S","11 g discrete","HHR",1440,"I S",1440,3.15836249209525
-"221","I","S","11 g discrete","SP MSC",40,"I S",40,1.60205999132796
-"222","I","S","11 g discrete","STSE",40,"I S",40,1.60205999132796
-"223","I","T","11 g discrete","HHR",1980,"I T",1980,3.29666519026153
-"224","I","T","11 g discrete","SP MSC",80,"I T",80,1.90308998699194
-"225","I","T","11 g discrete","STSE",20,"I T",20,1.30102999566398
-"226","I","U","33 g discrete","HHR",1800,"I U",1800,3.25527250510331
-"227","I","U","33 g discrete","SP MSC",0,"I U",10,1
-"228","I","U","33 g discrete","STSE",120,"I U",120,2.07918124604762
-"229","I","V","33 g discrete","HHR",1500,"I V",1500,3.17609125905568
-"230","I","V","33 g discrete","SP MSC",60,"I V",60,1.77815125038364
-"231","I","V","33 g discrete","STSE",60,"I V",60,1.77815125038364
-"232","I","W","33 g discrete","HHR",1980,"I W",1980,3.29666519026153
-"233","I","W","33 g discrete","SP MSC",60,"I W",60,1.77815125038364
-"234","I","W","33 g discrete","STSE",40,"I W",40,1.60205999132796
-"235","I","X","33 g composite","HHR",1140,"I X",1140,3.05690485133647
-"236","I","X","33 g composite","SP MSC",100,"I X",100,2
-"237","I","X","33 g composite","STSE",100,"I X",100,2
-"238","I","Y","33 g composite","HHR",1480,"I Y",1480,3.17026171539496
-"239","I","Y","33 g composite","SP MSC",80,"I Y",80,1.90308998699194
-"240","I","Y","33 g composite","STSE",40,"I Y",40,1.60205999132796
-"241","I","Z","33 g composite","HHR",1760,"I Z",1760,3.24551266781415
-"242","I","Z","33 g composite","SP MSC",80,"I Z",80,1.90308998699194
-"243","I","Z","33 g composite","STSE",120,"I Z",120,2.07918124604762
-"244","J","R","11 g discrete","HHR",2080,"J R",2080,3.31806333496276
-"245","J","R","11 g discrete","SP MSC",20,"J R",20,1.30102999566398
-"246","J","R","11 g discrete","STSE",1260,"J R",1260,3.10037054511756
-"247","J","S","11 g discrete","HHR",1860,"J S",1860,3.26951294421792
-"248","J","S","11 g discrete","SP MSC",40,"J S",40,1.60205999132796
-"249","J","S","11 g discrete","STSE",1220,"J S",1220,3.08635983067475
-"250","J","T","11 g discrete","HHR",2040,"J T",2040,3.3096301674259
-"251","J","T","11 g discrete","SP MSC",80,"J T",80,1.90308998699194
-"252","J","T","11 g discrete","STSE",980,"J T",980,2.99122607569249
-"253","J","U","33 g discrete","HHR",1860,"J U",1860,3.26951294421792
-"254","J","U","33 g discrete","SP MSC",0,"J U",10,1
-"255","J","U","33 g discrete","STSE",1220,"J U",1220,3.08635983067475
-"256","J","V","33 g discrete","HHR",2120,"J V",2120,3.32633586092875
-"257","J","V","33 g discrete","SP MSC",20,"J V",20,1.30102999566398
-"258","J","V","33 g discrete","STSE",1020,"J V",1020,3.00860017176192
-"259","J","W","33 g discrete","HHR",2520,"J W",2520,3.40140054078154
-"260","J","W","33 g discrete","SP MSC",20,"J W",20,1.30102999566398
-"261","J","W","33 g discrete","STSE",800,"J W",800,2.90308998699194
-"262","J","X","33 g composite","HHR",2380,"J X",2380,3.37657695705651
-"263","J","X","33 g composite","SP MSC",20,"J X",20,1.30102999566398
-"264","J","X","33 g composite","STSE",940,"J X",940,2.9731278535997
-"265","J","Y","33 g composite","HHR",2480,"J Y",2480,3.39445168082622
-"266","J","Y","33 g composite","SP MSC",0,"J Y",10,1
-"267","J","Y","33 g composite","STSE",1120,"J Y",1120,3.04921802267018
-"268","J","Z","33 g composite","HHR",2680,"J Z",2680,3.42813479402879
-"269","J","Z","33 g composite","SP MSC",20,"J Z",20,1.30102999566398
-"270","J","Z","33 g composite","STSE",1400,"J Z",1400,3.14612803567824
+powder,sampling_scheme,test,cfu_g,cfu_g2,log_cfu_g
+A,11 g discrete,HHR,20,20,1.301029996
+A,11 g discrete,SP MSC,60,60,1.77815125
+A,11 g discrete,STSE,0,10,1
+A,11 g discrete,HHR,20,20,1.301029996
+A,11 g discrete,SP MSC,60,60,1.77815125
+A,11 g discrete,STSE,0,10,1
+A,11 g discrete,HHR,60,60,1.77815125
+A,11 g discrete,SP MSC,140,140,2.146128036
+A,11 g discrete,STSE,0,10,1
+A,33 g discrete,HHR,20,20,1.301029996
+A,33 g discrete,SP MSC,60,60,1.77815125
+A,33 g discrete,STSE,0,10,1
+A,33 g discrete,HHR,60,60,1.77815125
+A,33 g discrete,SP MSC,60,60,1.77815125
+A,33 g discrete,STSE,0,10,1
+A,33 g discrete,HHR,0,10,1
+A,33 g discrete,SP MSC,180,180,2.255272505
+A,33 g discrete,STSE,0,10,1
+A,33 g composite,HHR,0,10,1
+A,33 g composite,SP MSC,60,60,1.77815125
+A,33 g composite,STSE,0,10,1
+A,33 g composite,HHR,40,40,1.602059991
+A,33 g composite,SP MSC,160,160,2.204119983
+A,33 g composite,STSE,0,10,1
+A,33 g composite,HHR,20,20,1.301029996
+A,33 g composite,SP MSC,160,160,2.204119983
+A,33 g composite,STSE,0,10,1
+B,11 g discrete,HHR,80000,80000,4.903089987
+B,11 g discrete,SP MSC,200,200,2.301029996
+B,11 g discrete,STSE,0,10,1
+B,11 g discrete,HHR,66000,66000,4.819543936
+B,11 g discrete,SP MSC,40,40,1.602059991
+B,11 g discrete,STSE,0,10,1
+B,11 g discrete,HHR,84000,84000,4.924279286
+B,11 g discrete,SP MSC,20,20,1.301029996
+B,11 g discrete,STSE,0,10,1
+B,33 g discrete,HHR,114000,114000,5.056904851
+B,33 g discrete,SP MSC,60,60,1.77815125
+B,33 g discrete,STSE,180,180,2.255272505
+B,33 g discrete,HHR,106000,106000,5.025305865
+B,33 g discrete,SP MSC,160,160,2.204119983
+B,33 g discrete,STSE,20,20,1.301029996
+B,33 g discrete,HHR,98000,98000,4.991226076
+B,33 g discrete,SP MSC,80,80,1.903089987
+B,33 g discrete,STSE,0,10,1
+B,33 g composite,HHR,74000,74000,4.86923172
+B,33 g composite,SP MSC,80,80,1.903089987
+B,33 g composite,STSE,80,80,1.903089987
+B,33 g composite,HHR,92000,92000,4.963787827
+B,33 g composite,SP MSC,60,60,1.77815125
+B,33 g composite,STSE,60,60,1.77815125
+B,33 g composite,HHR,86000,86000,4.934498451
+B,33 g composite,SP MSC,140,140,2.146128036
+B,33 g composite,STSE,0,10,1
+C,11 g discrete,HHR,20,20,1.301029996
+C,11 g discrete,SP MSC,100,100,2
+C,11 g discrete,STSE,60,60,1.77815125
+C,11 g discrete,HHR,20,20,1.301029996
+C,11 g discrete,SP MSC,80,80,1.903089987
+C,11 g discrete,STSE,0,10,1
+C,11 g discrete,HHR,160,160,2.204119983
+C,11 g discrete,SP MSC,60,60,1.77815125
+C,11 g discrete,STSE,60,60,1.77815125
+C,33 g discrete,HHR,60,60,1.77815125
+C,33 g discrete,SP MSC,180,180,2.255272505
+C,33 g discrete,STSE,60,60,1.77815125
+C,33 g discrete,HHR,20,20,1.301029996
+C,33 g discrete,SP MSC,60,60,1.77815125
+C,33 g discrete,STSE,40,40,1.602059991
+C,33 g discrete,HHR,140,140,2.146128036
+C,33 g discrete,SP MSC,60,60,1.77815125
+C,33 g discrete,STSE,40,40,1.602059991
+C,33 g composite,HHR,80,80,1.903089987
+C,33 g composite,SP MSC,20,20,1.301029996
+C,33 g composite,STSE,140,140,2.146128036
+C,33 g composite,HHR,120,120,2.079181246
+C,33 g composite,SP MSC,120,120,2.079181246
+C,33 g composite,STSE,80,80,1.903089987
+C,33 g composite,HHR,60,60,1.77815125
+C,33 g composite,SP MSC,80,80,1.903089987
+C,33 g composite,STSE,100,100,2
+D,11 g discrete,HHR,1480,1480,3.170261715
+D,11 g discrete,SP MSC,80,80,1.903089987
+D,11 g discrete,STSE,220,220,2.342422681
+D,11 g discrete,HHR,1080,1080,3.033423755
+D,11 g discrete,SP MSC,100,100,2
+D,11 g discrete,STSE,140,140,2.146128036
+D,11 g discrete,HHR,1360,1360,3.133538908
+D,11 g discrete,SP MSC,120,120,2.079181246
+D,11 g discrete,STSE,140,140,2.146128036
+D,33 g discrete,HHR,780,780,2.892094603
+D,33 g discrete,SP MSC,80,80,1.903089987
+D,33 g discrete,STSE,320,320,2.505149978
+D,33 g discrete,HHR,580,580,2.763427994
+D,33 g discrete,SP MSC,100,100,2
+D,33 g discrete,STSE,300,300,2.477121255
+D,33 g discrete,HHR,1040,1040,3.017033339
+D,33 g discrete,SP MSC,140,140,2.146128036
+D,33 g discrete,STSE,340,340,2.531478917
+D,33 g composite,HHR,640,640,2.806179974
+D,33 g composite,SP MSC,40,40,1.602059991
+D,33 g composite,STSE,420,420,2.62324929
+D,33 g composite,HHR,520,520,2.716003344
+D,33 g composite,SP MSC,100,100,2
+D,33 g composite,STSE,280,280,2.447158031
+D,33 g composite,HHR,1000,1000,3
+D,33 g composite,SP MSC,80,80,1.903089987
+D,33 g composite,STSE,280,280,2.447158031
+E,11 g discrete,HHR,540,540,2.73239376
+E,11 g discrete,SP MSC,220,220,2.342422681
+E,11 g discrete,STSE,0,10,1
+E,11 g discrete,HHR,640,640,2.806179974
+E,11 g discrete,SP MSC,280,280,2.447158031
+E,11 g discrete,STSE,0,10,1
+E,11 g discrete,HHR,460,460,2.662757832
+E,11 g discrete,SP MSC,420,420,2.62324929
+E,11 g discrete,STSE,0,10,1
+E,33 g discrete,HHR,540,540,2.73239376
+E,33 g discrete,SP MSC,440,440,2.643452676
+E,33 g discrete,STSE,40,40,1.602059991
+E,33 g discrete,HHR,700,700,2.84509804
+E,33 g discrete,SP MSC,300,300,2.477121255
+E,33 g discrete,STSE,20,20,1.301029996
+E,33 g discrete,HHR,420,420,2.62324929
+E,33 g discrete,SP MSC,320,320,2.505149978
+E,33 g discrete,STSE,0,10,1
+E,33 g composite,HHR,600,600,2.77815125
+E,33 g composite,SP MSC,300,300,2.477121255
+E,33 g composite,STSE,0,10,1
+E,33 g composite,HHR,560,560,2.748188027
+E,33 g composite,SP MSC,300,300,2.477121255
+E,33 g composite,STSE,0,10,1
+E,33 g composite,HHR,520,520,2.716003344
+E,33 g composite,SP MSC,340,340,2.531478917
+E,33 g composite,STSE,0,10,1
+F,11 g discrete,HHR,5040,5040,3.702430536
+F,11 g discrete,SP MSC,0,10,1
+F,11 g discrete,STSE,2260,2260,3.354108439
+F,11 g discrete,HHR,5000,5000,3.698970004
+F,11 g discrete,SP MSC,40,40,1.602059991
+F,11 g discrete,STSE,2300,2300,3.361727836
+F,11 g discrete,HHR,8200,8200,3.913813852
+F,11 g discrete,SP MSC,60,60,1.77815125
+F,11 g discrete,STSE,3060,3060,3.485721426
+F,33 g discrete,HHR,3940,3940,3.595496222
+F,33 g discrete,SP MSC,40,40,1.602059991
+F,33 g discrete,STSE,2080,2080,3.318063335
+F,33 g discrete,HHR,3960,3960,3.597695186
+F,33 g discrete,SP MSC,20,20,1.301029996
+F,33 g discrete,STSE,2460,2460,3.390935107
+F,33 g discrete,HHR,5280,5280,3.722633923
+F,33 g discrete,SP MSC,20,20,1.301029996
+F,33 g discrete,STSE,2600,2600,3.414973348
+F,33 g composite,HHR,4360,4360,3.639486489
+F,33 g composite,SP MSC,20,20,1.301029996
+F,33 g composite,STSE,2860,2860,3.456366033
+F,33 g composite,HHR,5080,5080,3.705863712
+F,33 g composite,SP MSC,80,80,1.903089987
+F,33 g composite,STSE,2100,2100,3.322219295
+F,33 g composite,HHR,6720,6720,3.827369273
+F,33 g composite,SP MSC,20,20,1.301029996
+F,33 g composite,STSE,2320,2320,3.365487985
+G,11 g discrete,HHR,360,360,2.556302501
+G,11 g discrete,SP MSC,40,40,1.602059991
+G,11 g discrete,STSE,200,200,2.301029996
+G,11 g discrete,HHR,260,260,2.414973348
+G,11 g discrete,SP MSC,100,100,2
+G,11 g discrete,STSE,100,100,2
+G,11 g discrete,HHR,620,620,2.792391689
+G,11 g discrete,SP MSC,80,80,1.903089987
+G,11 g discrete,STSE,100,100,2
+G,33 g discrete,HHR,1720,1720,3.235528447
+G,33 g discrete,SP MSC,120,120,2.079181246
+G,33 g discrete,STSE,220,220,2.342422681
+G,33 g discrete,HHR,860,860,2.934498451
+G,33 g discrete,SP MSC,40,40,1.602059991
+G,33 g discrete,STSE,160,160,2.204119983
+G,33 g discrete,HHR,1340,1340,3.127104798
+G,33 g discrete,SP MSC,100,100,2
+G,33 g discrete,STSE,140,140,2.146128036
+G,33 g composite,HHR,880,880,2.944482672
+G,33 g composite,SP MSC,20,20,1.301029996
+G,33 g composite,STSE,480,480,2.681241237
+G,33 g composite,HHR,440,440,2.643452676
+G,33 g composite,SP MSC,80,80,1.903089987
+G,33 g composite,STSE,300,300,2.477121255
+G,33 g composite,HHR,740,740,2.86923172
+G,33 g composite,SP MSC,80,80,1.903089987
+G,33 g composite,STSE,200,200,2.301029996
+H,11 g discrete,HHR,40,40,1.602059991
+H,11 g discrete,SP MSC,180,180,2.255272505
+H,11 g discrete,STSE,60,60,1.77815125
+H,11 g discrete,HHR,0,10,1
+H,11 g discrete,SP MSC,80,80,1.903089987
+H,11 g discrete,STSE,60,60,1.77815125
+H,11 g discrete,HHR,180,180,2.255272505
+H,11 g discrete,SP MSC,100,100,2
+H,11 g discrete,STSE,40,40,1.602059991
+H,33 g discrete,HHR,80,80,1.903089987
+H,33 g discrete,SP MSC,80,80,1.903089987
+H,33 g discrete,STSE,20,20,1.301029996
+H,33 g discrete,HHR,20,20,1.301029996
+H,33 g discrete,SP MSC,80,80,1.903089987
+H,33 g discrete,STSE,20,20,1.301029996
+H,33 g discrete,HHR,40,40,1.602059991
+H,33 g discrete,SP MSC,60,60,1.77815125
+H,33 g discrete,STSE,20,20,1.301029996
+H,33 g composite,HHR,100,100,2
+H,33 g composite,SP MSC,40,40,1.602059991
+H,33 g composite,STSE,180,180,2.255272505
+H,33 g composite,HHR,60,60,1.77815125
+H,33 g composite,SP MSC,80,80,1.903089987
+H,33 g composite,STSE,40,40,1.602059991
+H,33 g composite,HHR,80,80,1.903089987
+H,33 g composite,SP MSC,20,20,1.301029996
+H,33 g composite,STSE,20,20,1.301029996
+I,11 g discrete,HHR,2260,2260,3.354108439
+I,11 g discrete,SP MSC,80,80,1.903089987
+I,11 g discrete,STSE,180,180,2.255272505
+I,11 g discrete,HHR,1440,1440,3.158362492
+I,11 g discrete,SP MSC,40,40,1.602059991
+I,11 g discrete,STSE,40,40,1.602059991
+I,11 g discrete,HHR,1980,1980,3.29666519
+I,11 g discrete,SP MSC,80,80,1.903089987
+I,11 g discrete,STSE,20,20,1.301029996
+I,33 g discrete,HHR,1800,1800,3.255272505
+I,33 g discrete,SP MSC,0,10,1
+I,33 g discrete,STSE,120,120,2.079181246
+I,33 g discrete,HHR,1500,1500,3.176091259
+I,33 g discrete,SP MSC,60,60,1.77815125
+I,33 g discrete,STSE,60,60,1.77815125
+I,33 g discrete,HHR,1980,1980,3.29666519
+I,33 g discrete,SP MSC,60,60,1.77815125
+I,33 g discrete,STSE,40,40,1.602059991
+I,33 g composite,HHR,1140,1140,3.056904851
+I,33 g composite,SP MSC,100,100,2
+I,33 g composite,STSE,100,100,2
+I,33 g composite,HHR,1480,1480,3.170261715
+I,33 g composite,SP MSC,80,80,1.903089987
+I,33 g composite,STSE,40,40,1.602059991
+I,33 g composite,HHR,1760,1760,3.245512668
+I,33 g composite,SP MSC,80,80,1.903089987
+I,33 g composite,STSE,120,120,2.079181246
+J,11 g discrete,HHR,2080,2080,3.318063335
+J,11 g discrete,SP MSC,20,20,1.301029996
+J,11 g discrete,STSE,1260,1260,3.100370545
+J,11 g discrete,HHR,1860,1860,3.269512944
+J,11 g discrete,SP MSC,40,40,1.602059991
+J,11 g discrete,STSE,1220,1220,3.086359831
+J,11 g discrete,HHR,2040,2040,3.309630167
+J,11 g discrete,SP MSC,80,80,1.903089987
+J,11 g discrete,STSE,980,980,2.991226076
+J,33 g discrete,HHR,1860,1860,3.269512944
+J,33 g discrete,SP MSC,0,10,1
+J,33 g discrete,STSE,1220,1220,3.086359831
+J,33 g discrete,HHR,2120,2120,3.326335861
+J,33 g discrete,SP MSC,20,20,1.301029996
+J,33 g discrete,STSE,1020,1020,3.008600172
+J,33 g discrete,HHR,2520,2520,3.401400541
+J,33 g discrete,SP MSC,20,20,1.301029996
+J,33 g discrete,STSE,800,800,2.903089987
+J,33 g composite,HHR,2380,2380,3.376576957
+J,33 g composite,SP MSC,20,20,1.301029996
+J,33 g composite,STSE,940,940,2.973127854
+J,33 g composite,HHR,2480,2480,3.394451681
+J,33 g composite,SP MSC,0,10,1
+J,33 g composite,STSE,1120,1120,3.049218023
+J,33 g composite,HHR,2680,2680,3.428134794
+J,33 g composite,SP MSC,20,20,1.301029996
+J,33 g composite,STSE,1400,1400,3.146128036
