@@ -16,6 +16,7 @@ library(ggpubr)
 library(lme4)
 library(car)
 library(emmeans)
+library(broom)
 ```
 
 # Stage 1a
@@ -110,7 +111,6 @@ s1_df2$combo<- paste(s1_df2$media, s1_df2$plating, s1_df2$test, sep="_")
 
 s1_df2$combo_abbrv <- make.names(abbreviate(s1_df2$combo))
 
-#is this doing anything useful other than reshaping?
 all_wide <- s1_df2 %>%
   group_by(powder,combo_abbrv) %>%
   summarise(mean=mean(log_mean_count)) %>%
