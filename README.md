@@ -1,6 +1,6 @@
 # SporeMethods
 
-Supplemental files for "Identifying a standard set of spore testing methods to capture variation across commercial milk powders", submitted to the Journal of Dairy Science. 
+Supplemental files for "A standard set of testing methods reliably enumerates spores across commercial milk powders", published in the Journal of Dairy Science: https://doi.org/10.3168/jds.2020-19313.  
 
 "GridSampling_PowderBag.pdg" (referenced directly in the manuscript)
 
